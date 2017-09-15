@@ -8,8 +8,8 @@
 #' @param ...
 #'
 #' @return
-#' @export
-#' @importFrom gather dplyr
+#' @export windowCompare
+#' @importFrom tidyr gather
 #'
 windowCompare <- function(seqA, seqB, template = NULL, winSize = 1000, slide = 500, ...) {
     contigs <- template[, 1]

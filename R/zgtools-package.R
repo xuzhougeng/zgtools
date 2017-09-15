@@ -4,7 +4,7 @@
 #'
 #' @keywords internal
 #' @docType package
-#' @name zgtools
-#' @export
+#' @name zgtools-package
+#' @aliases zgtools-package zgtools
 #' @author xuzhougeng
 NULL
