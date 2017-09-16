@@ -10,6 +10,7 @@
 #' @importFrom DESeq2 vst
 #' @importFrom DESeq2 estimateSizeFactors
 #' @importFrom DESeq2 plotPCA
+#' @importFrom SummarizedExperiment assay
 #' @importFrom magrittr %>%
 #' @importFrom dplyr as_data_frame
 #' @importFrom dplyr bind_rows
@@ -18,15 +19,18 @@
 #' @importFrom ggplot2 geom_hex
 #' @importFrom ggplot2 coord_fixed
 #' @importFrom ggplot2 facet_grid
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 ggtitle
 #' @importFrom pheatmap pheatmap
 #' @importFrom RColorBrewer brewer.pal
 #'
 #' @export eda_plot
 #'
 #' @examples
-eda_plot <- function(dds, intgroup, blind = TRUE) {
+eda_plot <- function(dds, intgroup, blind = TRUE, filename="eda.pdf") {
+  print("runnning plot")
   # begin drawing
-  pdf("visualization_of_exploratroy_analysis.pdf")
+  pdf(filename)
   # The rlog and variance stabilizing transformations
   rld <- rlog(dds, blind = blind)
   vsd <- vst(dds, blind = blind)

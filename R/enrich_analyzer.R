@@ -27,7 +27,8 @@ enrich_analyzer <- function(res,
                             pAdjustMethod = "BH",
                             ...) {
   # Enrichment Analysis
-  res_sub <- subset(res, padj < pThreshold)
+  print("running enrichment analysis")
+  res_sub <- AnnotationDbi::subset(res, padj <pThreshold)
   genes <- rownames(res_sub)
 
   ## GO Enrichment Analysis

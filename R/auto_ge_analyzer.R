@@ -8,7 +8,7 @@
 #' @param orgDb orgDb, will be used for GO enrichment analysis
 #' @param lfcThreashold a non-negative value which specifies a log2 fold change
 #'   threshold.
-#' @param pAjustMehotd the method to use for adjusting p-values, see ?p.adjust
+#' @param pAdjustMethod the method to use for adjusting p-values, see ?p.adjust
 #' @param pThreshold a numeric to subset results of DESeq by pajust, default is
 #'   0.1
 #' @param ont one of "MF", "BP", and "CC" subontologies. BP: biological process
@@ -27,6 +27,7 @@
 #' @importFrom DESeq2 results
 #' @importFrom Matrix rowSums
 #' @importFrom magrittr %<>%
+#' @importFrom stringr str_split
 #' @export auto_ge_analyzer
 #'
 #' @author Xu Zhougeng
@@ -37,7 +38,7 @@ auto_ge_analyzer <- function(files,
                              txDb,
                              orgDb,
                              lfcThreashold = 0,
-                             pAdjustMehotd  = "BH",
+                             pAdjustMethod  = "BH",
                              pThreshold = 0.05,
                              goOnt = "MF",
                              goKeytype = "TAIR",
@@ -56,23 +57,23 @@ auto_ge_analyzer <- function(files,
   # differential expresssion analysis
   dds <- DESeq(dds)
 
-  pAjustMethod %<>% match.arg(
+  pAdjustMethod %<>% match.arg(
     c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
   ))
 
   res <- results(dds,
                  lfcThreashold = lfcThreashold,
-                 pAjustMethod = pAjustMethod)
+                 pAdjustMethod = pAdjustMethod)
   # Enrichment Analysis of GO and KEGG
   enrich_results <- enrich_analyzer(
-    res,
+    res = res,
     pThreshold = pThreshold,
     goOrg = orgDb,
-    goKeytype = "TAIR",
-    goOnt = "MF",
-    keggOrg = "ath",
-    keggKeytype = "kegg",
-    pAdjustMethod = "BH"
+    goKeytype = goKeytype,
+    goOnt = goOnt,
+    keggOrg = keggOrg,
+    keggKeytype = keggKeytype,
+    pAdjustMethod = pAdjustMethod
   )
 
   output = list(result = res, enrichment = enrich_results)

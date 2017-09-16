@@ -5,7 +5,7 @@
 \title{Auto Gene Expression Analysis}
 \usage{
 auto_ge_analyzer(files, sampleInfo, design, txDb, orgDb, lfcThreashold = 0,
-  pAdjustMehotd = "BH", pThreshold = 0.05, goOnt = "MF",
+  pAdjustMethod = "BH", pThreshold = 0.05, goOnt = "MF",
   goKeytype = "TAIR", keggOrg = "ath", keggKeytype = "kegg", ...)
 }
 \arguments{
@@ -22,6 +22,8 @@ auto_ge_analyzer(files, sampleInfo, design, txDb, orgDb, lfcThreashold = 0,
 \item{lfcThreashold}{a non-negative value which specifies a log2 fold change
 threshold.}
 
+\item{pAdjustMethod}{the method to use for adjusting p-values, see ?p.adjust}
+
 \item{pThreshold}{a numeric to subset results of DESeq by pajust, default is
 0.1}
 
@@ -34,8 +36,6 @@ threshold.}
 \item{keggKeytype}{KEGG keytype}
 
 \item{...}{additional parameter}
-
-\item{pAjustMehotd}{the method to use for adjusting p-values, see ?p.adjust}
 
 \item{ont}{one of "MF", "BP", and "CC" subontologies. BP: biological process
 CC: cellular component MF: molecular function}

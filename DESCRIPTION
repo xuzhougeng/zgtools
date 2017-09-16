@@ -1,6 +1,6 @@
 Package: zgtools
 Title: Xu Zhougeng's Toolkits
-Version: 0.1
+Version: 0.12
 Authors@R: person("Xu", "Zhougeng", email = "xuzhougeng@163.com", role = c("aut", "cre"))
 Description: As I write many function to solve the some same problem and tasks, I decide to 
     organize these common functions into a R packages. And this is.
@@ -19,5 +19,8 @@ Imports:
     tximport,
     AnnotationDbi,
     pheatmap,
-    RColorBrewer
+    RColorBrewer,
+    stringr,
+    SummarizedExperiment,
+    ggplot2
 Suggests: 

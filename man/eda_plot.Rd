@@ -4,7 +4,7 @@
 \alias{eda_plot}
 \title{eda_plot}
 \usage{
-eda_plot(dds, intgroup, blind = TRUE)
+eda_plot(dds, intgroup, blind = TRUE, filename = "eda.pdf")
 }
 \arguments{
 \item{dds}{DESeqDataSet object}
