@@ -27,7 +27,7 @@ enrich_analyzer <- function(res,
                             pAdjustMethod = "BH",
                             ...) {
   # Enrichment Analysis
-  print("running enrichment analysis")
+  message("running enrichment analysis")
   res_sub <- AnnotationDbi::subset(res, padj <pThreshold)
   genes <- rownames(res_sub)
 
@@ -78,3 +78,22 @@ enrich_analyzer <- function(res,
   )
   return(enrich_list)
 }
+
+
+#' Enrichment Analysis Results Output
+#'
+#' Write the enrichment analysis results into csv files
+#'
+#' @param enrichList
+#' @param filepname
+#'
+#' @return
+#' @export
+#'
+#' @examples
+write_enrich <- function(enrichList, filepname){
+
+}
+
+
+

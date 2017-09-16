@@ -2,17 +2,19 @@
 % Please edit documentation in R/eda_plot.R
 \name{eda_plot}
 \alias{eda_plot}
-\title{eda_plot}
+\title{Exploratory Data Analysis Plot}
 \usage{
-eda_plot(dds, intgroup, blind = TRUE, filename = "eda.pdf")
+eda_plot(dds, intgroup, blind = FALSE)
 }
 \arguments{
 \item{dds}{DESeqDataSet object}
 
+\item{intgroup}{interesting groups: a character vector of names to use for grouping}
+
 \item{blind}{logical, whether to blind the transformation to the experimental design.}
 }
 \value{
-plot
+graphics
 }
 \description{
 Exploratory Data Analysis Plot

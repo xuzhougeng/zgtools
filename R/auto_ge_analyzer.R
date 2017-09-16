@@ -1,21 +1,15 @@
 #' Auto Gene Expression Analysis
 #'
 #'
-#' @param files file path of count matrix
-#' @param sampleInfo sample infomation
-#' @param design experiment design, i.e. design = ~ condition
-#' @param txDb txDb, will be to import count matrix
+#' @inheritParams file2dds
 #' @param orgDb orgDb, will be used for GO enrichment analysis
 #' @param lfcThreashold a non-negative value which specifies a log2 fold change
 #'   threshold.
 #' @param pAdjustMethod the method to use for adjusting p-values, see ?p.adjust
 #' @param pThreshold a numeric to subset results of DESeq by pajust, default is
 #'   0.1
-#' @param ont one of "MF", "BP", and "CC" subontologies. BP: biological process
+#' @param goOnt one of "MF", "BP", and "CC" subontologies. BP: biological process
 #'   CC: cellular component MF: molecular function
-#' @param res result object from DESeq2 results
-#' @param pThreshold p value ajust
-#' @param goOnt one of "BP", "MF", "CC" or "GO"
 #' @param goKeytype GO keytype
 #' @param keggOrg  KEGG orgnism
 #' @param keggKeytype KEGG keytype
@@ -32,11 +26,14 @@
 #'
 #' @author Xu Zhougeng
 #' @examples
-auto_ge_analyzer <- function(files,
-                             sampleInfo,
+auto_ge_analyzer <- function(filepath,
+                             type,
+                             colData,
                              design,
                              txDb,
                              orgDb,
+                             keyType = "GENEID",
+                             txName = "TXNAME",
                              lfcThreashold = 0,
                              pAdjustMethod  = "BH",
                              pThreshold = 0.05,
@@ -45,14 +42,9 @@ auto_ge_analyzer <- function(files,
                              keggOrg = "ath",
                              keggKeytype = "kegg",
                              ...) {
-  txi <- files2txi(files = files,
-                   sampleInfo = sampleInfo,
-                   txDb = txDb)
-  dds <- DESeqDataSetFromTximport(txi, sample_info, design)
-  dds <- dds[rowSums(counts(dds)) > 1,]
-  # Explorary data analysis plot
-  intgroup = unlist(str_split(as.character(design)[2], ' '))
-  eda_plot(dds, intgroup = intgroup[!intgroup == '+'])
+
+  raw_dds <- file2dds(files, type, col_data, design = ~ treat_time, txDb = txdb)
+  dds <- raw_dds[rowSums(counts(raw_dds)) > 1,]
 
   # differential expresssion analysis
   dds <- DESeq(dds)
@@ -83,24 +75,4 @@ auto_ge_analyzer <- function(files,
 
 
 
-#' @importFrom readr read_tsv
-#' @importFrom tximport tximport
-#' @importFrom AnnotationDbi keys
-#' @importFrom AnnotationDbi select
-files2txi <- function(files, sampleInfo, txDb) {
-  # test if files are exists
-  if (!all(file.exists(files))) {
-    stop("some files are not exitst! ")
-  }
-  # import data, build a
-  k <- keys(txDb, keytype = "GENEID")
-  df <- select(txdb,
-               keys = k,
-               keytype = 'GENEID',
-               columns = 'TXNAME')
-  tx2gene <- df[, 2:1]
-  # suppress the message from tximport during the load files
-  suppressMessages(txi <-
-                     tximport(files, type = "salmon", tx2gene = tx2gene))
-  return(txi)
-}
+

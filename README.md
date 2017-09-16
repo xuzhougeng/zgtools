@@ -17,6 +17,10 @@ biocLite("xuzhougeng/zgtools")
 - 其他： 我没有想好写啥，慢慢更新吧。
 
 
+## 版本更新
+v0.13: 增加了`file2dds`函数. 目前是根据`salmon`的结果路径和实验设计构建`DESeqDataSeq`对象。以后正确支持多种格式。
+
+
 ## 缘起
 这是我在学习 Hadley Wickham 的 [R package](http://r-pkgs.had.co.nz/r.html) 后的第一个R包作品。
 

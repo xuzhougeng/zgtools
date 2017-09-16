@@ -4,18 +4,27 @@
 \alias{auto_ge_analyzer}
 \title{Auto Gene Expression Analysis}
 \usage{
-auto_ge_analyzer(files, sampleInfo, design, txDb, orgDb, lfcThreashold = 0,
+auto_ge_analyzer(filepath, type, colData, design, txDb, orgDb,
+  keyType = "GENEID", txName = "TXNAME", lfcThreashold = 0,
   pAdjustMethod = "BH", pThreshold = 0.05, goOnt = "MF",
   goKeytype = "TAIR", keggOrg = "ath", keggKeytype = "kegg", ...)
 }
 \arguments{
-\item{files}{file path of count matrix}
+\item{filepath}{a \code{vector} of file path of gene count}
 
-\item{sampleInfo}{sample infomation}
+\item{type}{method to count gene, one of HTSeq, Salmon, Sailfish,
+kallisto}
 
-\item{design}{experiment design, i.e. design = ~ condition}
+\item{colData}{a \code{data.frame} containning sample information with
+columns of sample name, treatment}
 
-\item{txDb}{txDb, will be to import count matrix}
+\item{design}{a \code{formula} which expresses how the counts for each gene
+depend on the variables in \code{colData}. Many R \code{formula} are valid,
+e.g, ~ group, ~ group + condition, ~genotype + treatment + genotype:
+treatment.}
+
+\item{txDb}{a \code{\link[TxDb]{GenomicFeatures}} object, which could be
+downloaded from \code{\link[AnnotationHub-objects]{AnnotationHub}}.}
 
 \item{orgDb}{orgDb, will be used for GO enrichment analysis}
 
@@ -27,7 +36,8 @@ threshold.}
 \item{pThreshold}{a numeric to subset results of DESeq by pajust, default is
 0.1}
 
-\item{goOnt}{one of "BP", "MF", "CC" or "GO"}
+\item{goOnt}{one of "MF", "BP", and "CC" subontologies. BP: biological process
+CC: cellular component MF: molecular function}
 
 \item{goKeytype}{GO keytype}
 
@@ -36,13 +46,6 @@ threshold.}
 \item{keggKeytype}{KEGG keytype}
 
 \item{...}{additional parameter}
-
-\item{ont}{one of "MF", "BP", and "CC" subontologies. BP: biological process
-CC: cellular component MF: molecular function}
-
-\item{res}{result object from DESeq2 results}
-
-\item{pThreshold}{p value ajust}
 }
 \value{
 Gene Expression Report

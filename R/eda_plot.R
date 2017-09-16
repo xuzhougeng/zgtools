@@ -1,10 +1,10 @@
 #' Exploratory Data Analysis Plot
 #'
 #'
-#' @title eda_plot
 #' @param dds DESeqDataSet object
 #' @param blind logical, whether to blind the transformation to the experimental design.
-#' @return plot
+#' @param intgroup interesting groups: a character vector of names to use for grouping
+#' @return graphics
 #'
 #' @importFrom DESeq2 rlog
 #' @importFrom DESeq2 vst
@@ -27,10 +27,8 @@
 #' @export eda_plot
 #'
 #' @examples
-eda_plot <- function(dds, intgroup, blind = TRUE, filename="eda.pdf") {
-  print("runnning plot")
+eda_plot <- function(dds, intgroup, blind = FALSE) {
   # begin drawing
-  pdf(filename)
   # The rlog and variance stabilizing transformations
   rld <- rlog(dds, blind = blind)
   vsd <- vst(dds, blind = blind)
@@ -45,7 +43,6 @@ eda_plot <- function(dds, intgroup, blind = TRUE, filename="eda.pdf") {
   p1 <-
     ggplot(df, aes(x = x, y = y)) + geom_hex(bins = 80) + coord_fixed() +
     facet_grid(. ~ transformation)
-  print(p1)
 
   # distance heatmap
   samplesDists <- dist(t(assay(rld)))
