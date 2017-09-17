@@ -4,12 +4,14 @@
 \alias{auto_ge_analyzer}
 \title{Auto Gene Expression Analysis}
 \usage{
-auto_ge_analyzer(filepath, type, colData, design, txDb, orgDb,
-  keyType = "GENEID", txName = "TXNAME", lfcThreashold = 0,
+auto_ge_analyzer(proj, filepath, type, colData, design, txDb, orgDb,
+  keyType = "GENEID", column = "TXNAME", lfcThreashold = 0,
   pAdjustMethod = "BH", pThreshold = 0.05, goOnt = "MF",
   goKeytype = "TAIR", keggOrg = "ath", keggKeytype = "kegg", ...)
 }
 \arguments{
+\item{proj}{project name}
+
 \item{filepath}{a \code{vector} of file path of gene count}
 
 \item{type}{method to count gene, one of HTSeq, Salmon, Sailfish,

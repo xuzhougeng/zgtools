@@ -1,6 +1,6 @@
 #' Auto Gene Expression Analysis
 #'
-#'
+#' @param proj project name
 #' @inheritParams file2dds
 #' @param orgDb orgDb, will be used for GO enrichment analysis
 #' @param lfcThreashold a non-negative value which specifies a log2 fold change
@@ -26,14 +26,15 @@
 #'
 #' @author Xu Zhougeng
 #' @examples
-auto_ge_analyzer <- function(filepath,
+auto_ge_analyzer <- function(proj,
+                             filepath,
                              type,
                              colData,
                              design,
                              txDb,
                              orgDb,
                              keyType = "GENEID",
-                             txName = "TXNAME",
+                             column = "TXNAME",
                              lfcThreashold = 0,
                              pAdjustMethod  = "BH",
                              pThreshold = 0.05,
@@ -42,12 +43,14 @@ auto_ge_analyzer <- function(filepath,
                              keggOrg = "ath",
                              keggKeytype = "kegg",
                              ...) {
-
-  raw_dds <- file2dds(files, type, col_data, design = ~ treat_time, txDb = txdb)
-  dds <- raw_dds[rowSums(counts(raw_dds)) > 1,]
-
+  if ( ! exists("dds")){
+    dds <- file2dds(filepath, type, colData, design = design, txDb = txDb,
+                     keyType = keyType, column = column)
+  }
+  dds <- dds[rowSums(counts(dds)) > 1, ]
+  #eda_plot(dds, intgroup = , filepath = file.path(), blind = FALSE)
   # differential expresssion analysis
-  dds <- DESeq(dds)
+  dds <- DESeq(dds, parallel = TRUE)
 
   pAdjustMethod %<>% match.arg(
     c("holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr", "none"
@@ -68,11 +71,10 @@ auto_ge_analyzer <- function(filepath,
     pAdjustMethod = pAdjustMethod
   )
 
-  output = list(result = res, enrichment = enrich_results)
+  output = list(result = res, enrichments = enrich_results)
+  message("write results into disk")
+  write_enrich(enrichList = output, dirname = proj, orgDb = orgDb,
+               column = "SYMBOL", keyType = goKeytype)
   return(output)
 
 }
-
-
-
-

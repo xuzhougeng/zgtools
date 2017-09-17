@@ -16,7 +16,7 @@
 #' @param txDb a \code{\link[TxDb]{GenomicFeatures}} object, which could be
 #'   downloaded from \code{\link[AnnotationHub-objects]{AnnotationHub}}.
 #' @param keyType
-#' @param txName
+#' @param column
 #' @param ... other paramter from \code{\link[tximport]{tximport}}
 #'
 #' @return DESeqDataSet object
@@ -26,7 +26,7 @@
 #' @examples
 #' @export
 file2dds <- function(filepath, type, colData, design, txDb=NULL,
-                     keyType = "GENEID", txName = 'TXNAME', ...) {
+                     keyType = "GENEID", column = 'TXNAME', ...) {
   # test if files are exists
   if (!all(file.exists(filepath))) {
     stop("some files are not exitst! ")
@@ -45,20 +45,18 @@ file2dds <- function(filepath, type, colData, design, txDb=NULL,
     if ( is.null(txDb) ) stop("txdb not exists")
     k <- AnnotationDbi::keys(txDb, keytype = keyType)
     df <- AnnotationDbi::select(txDb,
-                 keys = k,
-                 keytype = keyType,
-                 columns = txName)
+                                keys = k,
+                                keytype = keyType,
+                                columns = column)
     tx2gene <- df[, 2:1]
     suppressMessages(txi <- tximport::tximport(files = filepath,
-                              type = type,
-                              tx2gene = tx2gene,
-                              importer = function(x) read_tsv(x)))
+                                               type = type,
+                                               tx2gene = tx2gene,
+                                               importer = function(x) read_tsv(x)))
+    #message("tximport done")
     dds <- DESeq2::DESeqDataSetFromTximport(txi, colData, design )
     return(dds)
-
   }
-
-
 }
 
 

@@ -4,7 +4,7 @@
 \alias{eda_plot}
 \title{Exploratory Data Analysis Plot}
 \usage{
-eda_plot(dds, intgroup, blind = FALSE)
+eda_plot(dds, intgroup, filepath, blind = FALSE)
 }
 \arguments{
 \item{dds}{DESeqDataSet object}

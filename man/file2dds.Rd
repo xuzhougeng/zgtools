@@ -5,7 +5,7 @@
 \title{Building DESeqDataSet}
 \usage{
 file2dds(filepath, type, colData, design, txDb = NULL, keyType = "GENEID",
-  txName = "TXNAME", ...)
+  column = "TXNAME", ...)
 }
 \arguments{
 \item{filepath}{a \code{vector} of file path of gene count}

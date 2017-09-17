@@ -22,7 +22,7 @@ enrich_analyzer(res, pThreshold, goOrg, goKeytype = "TAIR", goOnt = "MF",
 
 \item{keggKeytype}{KEGG keytype}
 
-\item{pAdjustMethod}{p value ajust method}
+\item{pAdjustMethod}{p value adjust method}
 }
 \description{
 All kinds of enrichment Analysis

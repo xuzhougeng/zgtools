@@ -27,9 +27,10 @@
 #' @export eda_plot
 #'
 #' @examples
-eda_plot <- function(dds, intgroup, blind = FALSE) {
+eda_plot <- function(dds, intgroup, filepath, blind = FALSE) {
   # begin drawing
   # The rlog and variance stabilizing transformations
+  if ( ! exists("filepath")) stop("file path not exists")
   rld <- rlog(dds, blind = blind)
   vsd <- vst(dds, blind = blind)
   dds <- estimateSizeFactors(dds)
